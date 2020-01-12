@@ -376,7 +376,7 @@ uint8_t SoftIIC::wait_until_bus_is_idle(){
 		while(1){
 			SoftIIC::bus_read();
 			if(SoftIIC::StateStop()){return RETVAL_SUCCESS; }
-			if((SoftIIC::StateIdle())!=0){SoftIIC::TimerClearMatch(); }
+			if(!(SoftIIC::StateIdle())){SoftIIC::TimerClearMatch(); }
 			if(SoftIIC::TimerElapsed()) {return RETVAL_SUCCESS;}	
 		}
 	}else {
@@ -389,7 +389,7 @@ uint8_t SoftIIC::wait_until_bus_is_idle(){
 		while(num_half_clocks_remaining>0){	
 			while((SoftIIC::TimerElapsed())==0) {		
 				SoftIIC::bus_read();
-				if((SoftIIC::StateIdle())!=0){return RETVAL_PROTOCOL_FAILURE; }		
+				if(!(SoftIIC::StateIdle())){return RETVAL_PROTOCOL_FAILURE; }		
 			}
 			num_half_clocks_remaining--;
 		}
